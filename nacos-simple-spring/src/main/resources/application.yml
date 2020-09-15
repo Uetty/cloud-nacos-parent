@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: dev
+  messages:
+    # 国际化文件
+    basename: i18n/messages
