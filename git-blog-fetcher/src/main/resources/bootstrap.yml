@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: blog-fetcher
+  cloud:
+    httpclientfactories:
+      apache:
+        # 处理nacos引入的HttpClient类导致spring cloud commons中触发http client的自动配置
+        enabled: false
+    nacos:
+      config:
+        server-addr: www.uetty.com:8848
+        # 默认dataId为 ${prefix}-${spring.profiles.active}.${file-extension}
+        namespace: 99300844-097b-4a94-86b2-fdc9df9b31d6
+        group: blog-fetcher
+        prefix: application
+        file-extension: yml
+#        encode:
+#        username:
+#        password:
+        extension-configs[0]:
+          group: blog-fetcher
+          data-id: ext01.yml
+          refresh: true
+
+      discovery:
+        server-addr: www.uetty.com:8848

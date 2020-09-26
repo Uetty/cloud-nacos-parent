@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: simple-sample
   messages:
     # 国际化文件
     basename: i18n/messages

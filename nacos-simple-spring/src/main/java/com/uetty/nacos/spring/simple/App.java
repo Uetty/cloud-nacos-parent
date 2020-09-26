@@ -12,8 +12,9 @@ import org.springframework.context.event.GenericApplicationListenerAdapter;
 @SpringBootApplication
 @Configuration
 @EnableNacosConfig(globalProperties = @NacosProperties(serverAddr = "www.uetty.com:8848",
-        namespace = "473c483f-b4da-44a5-8bc9-92d77e4dd5c6"))
-@NacosPropertySource(dataId = "application.yml", groupId = "${spring.profiles.active:dev}", autoRefreshed = true)
+        namespace = "99300844-097b-4a94-86b2-fdc9df9b31d6"))
+@NacosPropertySource(dataId = "application.yml", groupId = "nacos-simple-spring", autoRefreshed = true)
+@NacosPropertySource(dataId = "application-${spring.profiles.active:dev}.yml", groupId = "nacos-simple-spring", autoRefreshed = true)
 public class App {
 
     public static void main(String[] args) {
