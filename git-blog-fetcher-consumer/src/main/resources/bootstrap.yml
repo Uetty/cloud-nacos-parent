@@ -2,25 +2,27 @@ spring:
   profiles:
     active: dev
   application:
-    name: blog-fetcher
+    name: blog-fetcher-consumer
   cloud:
     nacos:
       config:
         server-addr: www.uetty.com:8848
         # 默认dataId为 ${prefix}-${spring.profiles.active}.${file-extension}
         namespace: 99300844-097b-4a94-86b2-fdc9df9b31d6
-        group: blog-fetcher
-        prefix: application
+        group: blog-fetcher-consumer
         file-extension: yml
-#        encode:
-#        username:
-#        password:
-        extension-configs[0]:
-          group: blog-fetcher
-          data-id: ext01.yml
-          refresh: true
 
       discovery:
         server-addr: www.uetty.com:8848
         namespace: 99300844-097b-4a94-86b2-fdc9df9b31d6
         group: shanghai
+
+provider:
+  service-name:
+    blogServiceName: blog-fetcher
+
+com:
+  uetty:
+    nacos:
+      log-support:
+        paths: /api/**

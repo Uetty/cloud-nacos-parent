@@ -13,6 +13,8 @@
         <module>git-blog-fetcher</module>
         <module>api-git-blog-fetcher</module>
         <module>git-blog-fetcher-consumer</module>
+        <module>common</module>
+        <module>common-log-support</module>
     </modules>
 
     <properties>
@@ -29,7 +31,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
     </dependencies>
 
     <dependencyManagement>
@@ -90,6 +91,11 @@
                 <version>${nacos.starter.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.12</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

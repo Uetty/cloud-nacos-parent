@@ -57,8 +57,14 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>com.uetty.nacos</groupId>
             <artifactId>api-git-blog-fetcher</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.uetty.nacos</groupId>
+            <artifactId>common-log-support</artifactId>
             <version>${project.version}</version>
         </dependency>
 

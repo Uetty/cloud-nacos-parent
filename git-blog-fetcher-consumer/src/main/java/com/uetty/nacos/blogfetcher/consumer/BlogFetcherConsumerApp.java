@@ -1,14 +1,14 @@
-package com.uetty.nacos.blogfetcher;
+package com.uetty.nacos.blogfetcher.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-@EnableDiscoveryClient
-public class App {
+@EnableDiscoveryClient(autoRegister = false)
+public class BlogFetcherConsumerApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(BlogFetcherConsumerApp.class, args);
     }
 }
