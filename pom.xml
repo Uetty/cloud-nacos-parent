@@ -12,6 +12,7 @@
         <module>nacos-simple-spring</module>
         <module>git-blog-fetcher</module>
         <module>api-git-blog-fetcher</module>
+        <module>git-blog-fetcher-consumer</module>
     </modules>
 
     <properties>
