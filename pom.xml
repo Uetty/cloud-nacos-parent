@@ -15,6 +15,7 @@
         <module>git-blog-fetcher-consumer</module>
         <module>common</module>
         <module>common-log-support</module>
+        <module>common-i18n-support</module>
     </modules>
 
     <properties>

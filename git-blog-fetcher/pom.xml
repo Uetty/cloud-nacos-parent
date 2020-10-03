@@ -68,5 +68,11 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.uetty.nacos</groupId>
+            <artifactId>common-i18n-support</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

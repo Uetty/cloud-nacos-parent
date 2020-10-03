@@ -3,6 +3,8 @@ spring:
     active: dev
   application:
     name: blog-fetcher
+  messages:
+    basename: i18n/messages
   cloud:
     nacos:
       config:
