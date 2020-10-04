@@ -1,6 +1,8 @@
 package com.uetty.nacos.blogfetcher.controller;
 
+import com.uetty.nacos.annotation.AutoLogSpec;
 import com.uetty.nacos.blogfetcher.constants.ApiPaths;
+import com.uetty.nacos.exception.BusinessException;
 import com.uetty.nacos.util.I18nUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -21,10 +23,15 @@ public class FetcherController {
 
     @RequestMapping("/api/getTip")
     public String getTip() {
+        System.out.println("-----");
+        if (Math.random() > 0.5) {
+            throw new BusinessException("{reponse.message.code_100001}");
+        }
         return "tip: " + tip;
     }
 
     @RequestMapping("/api/getExt")
+    @AutoLogSpec("获取Ext名称")
     public String getExt() {
         return "extName: " + ext;
     }

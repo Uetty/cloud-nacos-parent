@@ -42,14 +42,7 @@ public abstract class I18nBaseController<K extends ResponseCode> {
 
     protected <T> BaseResponse<T> bizCodifiedToResponse(K bizCodified) {
         String responseCode = bizCodified.getResponseCode();
-        String responseMessage = bizCodified.getResponseMessage();
-
-        if (responseMessage != null) {
-            responseMessage = I18nUtil.getMessage(getLocale(), responseMessage);
-        }
-        if (responseMessage == null) {
-            responseMessage = I18nUtil.getMessageByCode(getLocale(), responseCode);
-        }
+        String responseMessage = I18nUtil.getMessageByCode(getLocale(), responseCode);
 
         BaseResponse<T> baseResponse = new BaseResponse<>();
         baseResponse.setCode(responseCode);

@@ -25,6 +25,7 @@ public class ControllerExceptionAop {
     @Around("i18nPointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         try {
+            log.info("i18n point cut");
             //执行方法
             return point.proceed();
         } catch (BusinessException be) {
