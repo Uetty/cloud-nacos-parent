@@ -33,11 +33,8 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
-
         String requestIp = IPUtil.getRequestIp(request);
-
         String logSpec = "";
-
         if (handler instanceof HandlerMethod) {
             Method method = ((HandlerMethod) handler).getMethod();
             logSpec = "";
@@ -46,14 +43,12 @@ public class LogInterceptor implements HandlerInterceptor {
                 logSpec = "LogSpec --> [name=" + autoLogSpec.value() + ",namespace=" + autoLogSpec.namespace() + ",group=" + autoLogSpec.group() + "]";
             }
         }
-
         Long seq = sequenceNumber.incrementAndGet();
-        request.setAttribute(LOG_REQ_TIME, System.currentTimeMillis());
+        log.info("[{} : {}] from-ip: {}, uri: {} {}", randomIdentity.getServerId(), seq, requestIp, requestURI, logSpec);
+
         request.setAttribute(LOG_SEQ_ID, seq);
         request.setAttribute(LOG_SPEC, logSpec);
-
-        log.info("[{} : {}] from-ip: {}, uri: {} {}", randomIdentity.getServerId(), seq, requestIp, requestURI, logSpec);
-        
+        request.setAttribute(LOG_REQ_TIME, System.currentTimeMillis());
         return true;
     }
 
