@@ -1,9 +1,9 @@
 package com.uetty.nacos.blogfetcher.controller;
 
 import com.uetty.nacos.annotation.AutoLogSpec;
-import com.uetty.nacos.blogfetcher.constants.ApiPaths;
 import com.uetty.nacos.exception.BusinessException;
 import com.uetty.nacos.util.I18nUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,7 @@ import java.util.Locale;
 
 @RestController
 @RefreshScope
-public class FetcherController {
+public class TestController {
 
     @Value(value = "${app.tip:}")
     private String tip;
@@ -36,7 +36,7 @@ public class FetcherController {
         return "extName: " + ext;
     }
 
-    @RequestMapping(ApiPaths.FETCH_SERVICE)
+    @RequestMapping("/api/git/fetch")
     public String fetch() {
         return "success trigger";
     }
@@ -48,4 +48,5 @@ public class FetcherController {
 
         return message;
     }
+
 }
