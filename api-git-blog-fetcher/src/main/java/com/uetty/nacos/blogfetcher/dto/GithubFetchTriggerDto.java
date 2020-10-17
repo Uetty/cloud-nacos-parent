@@ -23,4 +23,6 @@ public class GithubFetchTriggerDto {
     // 最终网站附件链接基础地址
     private String attachBaseUri;
 
+
+
 }

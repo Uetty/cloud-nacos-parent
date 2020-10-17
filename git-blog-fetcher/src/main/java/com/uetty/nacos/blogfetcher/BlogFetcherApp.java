@@ -1,16 +1,16 @@
 package com.uetty.nacos.blogfetcher;
 
+import com.uetty.nacos.blogfetcher.jms.channel.BlogDownloadProcessor;
 import com.uetty.nacos.exception.CommonExceptionAdvice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-
-import java.beans.Transient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableBinding(BlogDownloadProcessor.class)
 public class BlogFetcherApp {
 
     @Bean
