@@ -7,18 +7,12 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
 @Slf4j
 public class CommonExceptionAdvice {
 
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public BaseResponse<Object> handlerNoFoundException(Exception e) {
-        log.error(e.getMessage(), e);
-        return BaseResponse.error(e.getMessage());
-    }
 
 //    @ExceptionHandler(DuplicateKeyException.class)
 //    public BaseResponse<Object> handleDuplicateKeyException(DuplicateKeyException e){

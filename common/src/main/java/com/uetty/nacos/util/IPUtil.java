@@ -2,7 +2,6 @@ package com.uetty.nacos.util;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("unused")
 public class IPUtil {

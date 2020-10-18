@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      config:
+        server-addr: www.uetty.com:8848
+        # 默认dataId为 ${prefix}-${spring.profiles.active}.${file-extension}
+        namespace: 99300844-097b-4a94-86b2-fdc9df9b31d6
+        group: gateway
+        file-extension: yml
+      discovery:
+        server-addr: www.uetty.com:8848
+        namespace: 99300844-097b-4a94-86b2-fdc9df9b31d6
+        group: shanghai
+    gateway:
+      discovery:
+        locator:
+          # 开启结合服务注册发现
+          enabled: true
+      routes:
