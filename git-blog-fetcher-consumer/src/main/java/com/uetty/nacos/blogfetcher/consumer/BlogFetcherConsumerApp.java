@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-@EnableDiscoveryClient(autoRegister = false)
+@EnableDiscoveryClient
 public class BlogFetcherConsumerApp {
 
     public static void main(String[] args) {

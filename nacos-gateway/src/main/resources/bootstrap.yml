@@ -21,3 +21,17 @@ spring:
           # 开启结合服务注册发现
           enabled: true
       routes:
+        - id: github_route
+          # 使用服务名作host
+          uri: lb://blog-fetcher
+          filters:
+            - RewritePath=/gfw/(?<path>.*),/$\{path}
+          predicates:
+#            - Host=**.uetty.com:**
+            - Path=/gfw/github/**
+        - id: consumer_route
+          uri: lb://blog-fetcher-consumer
+          filters:
+            - RewritePath=/gfw/(?<path>.*),/$\{path}
+          predicates:
+            - Path=/gfw/trigger/**
