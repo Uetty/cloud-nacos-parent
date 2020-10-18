@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
@@ -33,10 +34,25 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+        StringBuilder sb = new StringBuilder();
+        StringBuilder headerValues = new StringBuilder();
+        while (headerNames.hasMoreElements()) {
+            String s = headerNames.nextElement();
+            sb.append(s).append(":");
+            headerValues.append(request.getHeader(s)).append(":");
+        }
+        if (sb.length() > 0) {
+            sb.delete(sb.length() - 1, sb.length());
+            headerValues.delete(headerValues.length() - 1, headerValues.length());
+        }
+        log.info("header names -> {}", sb);
+        log.info("header values -> {}", headerValues);
+
         String requestIp = IPUtil.getRequestIp(request);
         String logSpec = "";
         if (handler instanceof HandlerMethod) {
-            Method method = ((HandlerMethod) handler).getMethod();
             logSpec = "";
             AutoLogSpec autoLogSpec = ((HandlerMethod) handler).getMethodAnnotation(AutoLogSpec.class);
             if (autoLogSpec != null) {
