@@ -154,3 +154,22 @@ CREATE TABLE GH_QRTZ_LOCKS
     LOCK_NAME  VARCHAR(40) NOT NULL,
     PRIMARY KEY (SCHED_NAME,LOCK_NAME)
 );
+
+
+CREATE TABLE `bf_task` (
+`id`  varchar(32) NOT NULL ,
+`code`  varchar(32) NULL COMMENT '任务code标识' ,
+`status`  varchar(32) NULL ,
+`pre_url`  text NULL COMMENT '前置 url ' ,
+`resp_download_url`  text NULL COMMENT '仓库url' ,
+`repo_name`  varchar(255) NULL COMMENT '仓库名称' ,
+`attach_folder_name`  varchar(255) NULL COMMENT '附件文件夹名称' ,
+`attach_uri_prefix`  varchar(510) NULL COMMENT '目标网站附件路径前缀' ,
+`result_file_path`  text NULL COMMENT '解析结果文件',
+`create_time`  datetime NULL ,
+`create_by`  varchar(255) NULL ,
+`update_time`  datetime NULL ,
+`update_by`  varchar(255) NULL ,
+`version`  int NULL DEFAULT 1 COMMENT '版本号' ,
+PRIMARY KEY (`id`)
+);

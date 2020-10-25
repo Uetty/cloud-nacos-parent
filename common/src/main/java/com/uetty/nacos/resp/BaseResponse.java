@@ -13,6 +13,10 @@ public class BaseResponse<T> implements Serializable {
     String message;
     T data;
 
+    public static BaseResponse<Object> success() {
+        return success(null);
+    }
+
     public static <T> BaseResponse<T> success(T data) {
         BaseResponse<T> baseResponse = new BaseResponse<>();
         baseResponse.setCode(ResponseCode.SUCCESS.getResponseCode());
