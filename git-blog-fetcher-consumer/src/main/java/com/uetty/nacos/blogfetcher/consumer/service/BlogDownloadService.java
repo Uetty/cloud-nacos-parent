@@ -10,7 +10,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient(name="blog-fetcher", configuration = FeignClientsConfiguration.class)
 public interface BlogDownloadService extends BlogDownloadApi {
 
-    @RequestMapping("/github/downloadBlogs")
-    @Override
-    BaseResponse<Object> downloadBlogs(GithubFetchTriggerDto dto);
 }

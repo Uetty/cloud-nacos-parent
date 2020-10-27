@@ -14,7 +14,7 @@ public class GithubServiceImpl implements GithubService {
     private TaskMapper taskMapper;
 
     @Override
-    public Task getById(String id) {
+    public Task getTaskById(String id) {
         return taskMapper.selectById(id);
     }
 
