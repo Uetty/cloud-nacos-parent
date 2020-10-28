@@ -30,7 +30,7 @@ spring:
     stream:
       bindings:
         blogDownloaded:
-          destination: blog-download-complete
+          destination: github-blog-common
           group: DEFAULT
       rocketmq:
         binder:
@@ -38,14 +38,14 @@ spring:
         bindings:
           # 消息通道名
           blogDownloaded:
-            consumer:
-              enable: true
-              # 并发或有序消费
-              orderly: false
-              # 并发消费时，消息消费重试策略（-1：直接进入死信队列，0：由broker决定频率，>0：由客户端决定频率）
-              delayLevelWhenNextConsume: 0
-              # 顺序消费时，消费事件间隔
-              suspendCurrentQueueTimeMillis: 1000
+#            consumer:
+#              enable: true
+#              # 并发或有序消费
+#              orderly: false
+#              # 并发消费时，消息消费重试策略（-1：直接进入死信队列，0：由broker决定频率，>0：由客户端决定频率）
+#              delayLevelWhenNextConsume: 0
+#              # 顺序消费时，消费事件间隔
+#              suspendCurrentQueueTimeMillis: 1000
             producer:
               enable: true
               group: DEFAULT
@@ -85,3 +85,5 @@ mybatis-plus:
     local-cache-scope: statement
 
 
+app:
+  tmpdir:

@@ -1,6 +1,7 @@
 package com.uetty.nacos.blogfetcher;
 
-import com.uetty.nacos.blogfetcher.jms.channel.BlogDownloadProcessor;
+import com.uetty.nacos.blogfetcher.jms.GithubSimpleSender;
+import com.uetty.nacos.blogfetcher.jms.channel.GithubJmsSource;
 import com.uetty.nacos.exception.CommonExceptionAdvice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,8 +11,13 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableBinding(BlogDownloadProcessor.class)
+@EnableBinding(GithubJmsSource.class)
 public class BlogFetcherApp {
+
+    @Bean
+    public GithubSimpleSender githubSimpleSender() {
+        return new GithubSimpleSender();
+    }
 
     @Bean
     public CommonExceptionAdvice commonExceptionAdvice() {

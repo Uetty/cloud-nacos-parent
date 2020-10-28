@@ -173,3 +173,4 @@ CREATE TABLE `bf_task` (
 `version`  int NULL DEFAULT 1 COMMENT '版本号' ,
 PRIMARY KEY (`id`)
 );
+

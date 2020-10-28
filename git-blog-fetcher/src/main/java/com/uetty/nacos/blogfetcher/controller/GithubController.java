@@ -1,28 +1,32 @@
 package com.uetty.nacos.blogfetcher.controller;
 
-import brave.http.HttpResponse;
 import com.uetty.nacos.annotation.AutoLogSpec;
 import com.uetty.nacos.blogfetcher.dto.GithubFetchTriggerDto;
 import com.uetty.nacos.blogfetcher.entity.Task;
 import com.uetty.nacos.blogfetcher.entity.TaskStatus;
-import com.uetty.nacos.blogfetcher.jms.BlogDownloadedProducer;
+import com.uetty.nacos.blogfetcher.jms.GithubDynamicProducer;
+import com.uetty.nacos.blogfetcher.jms.GithubSimpleSender;
 import com.uetty.nacos.blogfetcher.service.GithubService;
+import com.uetty.nacos.blogfetcher.vo.GithubTaskVo;
 import com.uetty.nacos.resp.BaseResponse;
+import com.uetty.nacos.util.FileTool;
 import com.uetty.nacos.util.ResourceUtil;
+import com.uetty.nacos.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import java.util.Random;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -30,15 +34,25 @@ import java.util.Random;
 public class GithubController extends BaseController {
 
     @Autowired
-    private BlogDownloadedProducer githubCompleteProducer;
+    private GithubDynamicProducer githubCompleteProducer;
 
     @Autowired
     private GithubService githubService;
 
+    @Value("${app.tmpdir}")
+    private String tmpDir;
+
+    private String getTmpDir() {
+        if (StringUtil.isNotBlank(tmpDir)) {
+            return tmpDir;
+        }
+        return FileTool.getDefaultTmpDir();
+    }
+
     @AutoLogSpec("触发博客下载任务")
     @RequestMapping("triggerBlogFetcher")
     public BaseResponse<Object> triggerBlogFetcher(GithubFetchTriggerDto dto) {
-
+        
         
         return BaseResponse.success();
     }
@@ -47,16 +61,30 @@ public class GithubController extends BaseController {
     @GetMapping(value = "downloadBlogs")
     public void downloadBlogs(String taskId, HttpServletResponse response) {
         Task task = githubService.getTaskById(taskId);
-        if (task == null || Objects.equals(task.getStatus(), TaskStatus.FAILED.getId())) {
-            downloadFailed(response);
-        } else if (Objects.equals(task.getStatus(), TaskStatus.DOWNLOADED.getId())) {
-            downloadOutOfDate(response);
-        } else if (Objects.equals(task.getStatus(), TaskStatus.COMPLETED.getId())) {
-            // TODO 返回文件
 
-        } else {
-            downloadTaskNotComplete(response);
+        try {
+            if (task == null || Objects.equals(task.getStatus(), TaskStatus.FAILED.getId())) {
+                downloadFailed(response);
+            } else if (Objects.equals(task.getStatus(), TaskStatus.DOWNLOADED.getId())) {
+                downloadOutOfDate(response);
+            } else if (Objects.equals(task.getStatus(), TaskStatus.COMPLETED.getId())) {
+                // 返回文件
+                String tmpDir = getTmpDir();
+                String resultFilePath = task.getResultFilePath();
+                File file = new File(tmpDir, resultFilePath);
+                try (FileInputStream fis = new FileInputStream(file)) {
+
+                    responseFile(response, fis, "download.zip");
+                }
+
+            } else {
+                downloadTaskNotComplete(response);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            downloadFailed(response);
         }
+
     }
 
     private void downloadFailed(HttpServletResponse response) {
@@ -90,14 +118,7 @@ public class GithubController extends BaseController {
         response.setContentType("application/octet-stream");
         ServletOutputStream outputStream = response.getOutputStream();
 
-        byte[] bytes = new byte[1024];
-        int len;
-
-        while ((len = inputStream.read(bytes, 0, bytes.length)) != -1) {
-            outputStream.write(bytes, 0, len);
-        }
-
-        outputStream.flush();
+        FileTool.writeFromInputStream(outputStream, inputStream);
     }
 
     @GetMapping("getById")
@@ -108,12 +129,29 @@ public class GithubController extends BaseController {
         return BaseResponse.success(task);
     }
 
-    @AutoLogSpec("博客下载任务完成消息通知测试")
-    @RequestMapping("replyDonned")
-    public BaseResponse<Object> noticeTest() {
 
-        int i = new Random().nextInt(100);
-        githubCompleteProducer.send("taskCode " + i);
+    @AutoLogSpec("动态binding")
+    @RequestMapping("dynamicSend")
+    public BaseResponse<Object> dynamicBindingSend(String bindingName) {
+        GithubTaskVo taskVo = new GithubTaskVo();
+        taskVo.setTaskId(UUID.randomUUID().toString());
+        taskVo.setTaskCode(bindingName);
+        githubCompleteProducer.send(taskVo);
+
+        return successResult();
+    }
+
+    @Autowired
+    GithubSimpleSender simpleSender;
+
+    @AutoLogSpec("固定binding")
+    @RequestMapping("simpleSend")
+    public BaseResponse<Object> simpleSend(String bindingName) {
+        GithubTaskVo taskVo = new GithubTaskVo();
+        taskVo.setTaskId(UUID.randomUUID().toString());
+        taskVo.setTaskCode(bindingName);
+        simpleSender.send(taskVo);
+
         return successResult();
     }
 }
