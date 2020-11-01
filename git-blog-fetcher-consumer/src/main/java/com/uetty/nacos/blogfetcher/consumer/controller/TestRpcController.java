@@ -3,7 +3,6 @@ package com.uetty.nacos.blogfetcher.consumer.controller;
 import com.uetty.nacos.annotation.AutoLogSpec;
 import com.uetty.nacos.blogfetcher.consumer.service.BlogDownloadService;
 import com.uetty.nacos.blogfetcher.consumer.service.RestTemplateService;
-import com.uetty.nacos.blogfetcher.dto.GithubFetchTriggerDto;
 import com.uetty.nacos.resp.BaseResponse;
 import com.uetty.nacos.util.FileTool;
 import feign.Response;

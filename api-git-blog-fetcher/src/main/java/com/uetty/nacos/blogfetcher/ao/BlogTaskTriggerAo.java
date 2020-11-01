@@ -1,9 +1,9 @@
-package com.uetty.nacos.blogfetcher.dto;
+package com.uetty.nacos.blogfetcher.ao;
 
 import lombok.Data;
 
 @Data
-public class GithubFetchTriggerDto {
+public class BlogTaskTriggerAo {
 
     // 预热 url
     private String preUrl;

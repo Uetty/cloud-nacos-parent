@@ -2,6 +2,7 @@ package com.uetty.nacos.blogfetcher;
 
 import com.uetty.nacos.blogfetcher.jms.GithubSimpleSender;
 import com.uetty.nacos.blogfetcher.jms.channel.GithubJmsSource;
+import com.uetty.nacos.blogfetcher.jms.channel.TaskJmsProcessor;
 import com.uetty.nacos.exception.CommonExceptionAdvice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableBinding(GithubJmsSource.class)
+@EnableBinding(value = {GithubJmsSource.class, TaskJmsProcessor.class})
 public class BlogFetcherApp {
 
     @Bean

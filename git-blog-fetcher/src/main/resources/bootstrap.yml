@@ -29,23 +29,17 @@ spring:
         group: shanghai
     stream:
       bindings:
-        blogDownloaded:
-          destination: github-blog-common
+        blogDownloadedHook:
+          destination: blog-downloaded-hook-common
           group: DEFAULT
+        blogDownloadTask:
+          destination: blog-download-task
       rocketmq:
         binder:
           name-server: 127.0.0.1:9876
         bindings:
           # 消息通道名
-          blogDownloaded:
-#            consumer:
-#              enable: true
-#              # 并发或有序消费
-#              orderly: false
-#              # 并发消费时，消息消费重试策略（-1：直接进入死信队列，0：由broker决定频率，>0：由客户端决定频率）
-#              delayLevelWhenNextConsume: 0
-#              # 顺序消费时，消费事件间隔
-#              suspendCurrentQueueTimeMillis: 1000
+          blogDownloadedHook:
             producer:
               enable: true
               group: DEFAULT
@@ -54,7 +48,7 @@ spring:
               # 以同步模式发送
               sync: false
               # vip通道，vip通道的端口号-2
-              vipChannelEnabled: true
+              vipChannelEnabled: false
               sendMessageTimeout: 3000
               # 大于该值的消息体会被压缩
               compressMessageBodyThreshold: 4096
@@ -64,6 +58,26 @@ spring:
               retryTimesWhenSendAsyncFailed: 2
               # 发送失败时重试另一个代理
               retryNextServer: true
+          blogDownloadTask:
+            consumer:
+              enable: true
+              # 并发或有序消费
+              orderly: false
+              # 并发消费时，消息消费重试策略（-1：直接进入死信队列，0：由broker决定频率，>0：由客户端决定频率）
+              delayLevelWhenNextConsume: 0
+              # 顺序消费时，消费事件间隔
+              suspendCurrentQueueTimeMillis: 1000
+            producer:
+              enable: true
+              group: DEFAULT
+              # 发送事务消息
+              transactional: false
+              # 以同步模式发送
+              sync: true
+              # vip通道，vip通道的端口号-2
+              vipChannelEnabled: false
+              # 大于该值的消息体会被压缩
+              compressMessageBodyThreshold: 4096
 
 
 mybatis-plus:

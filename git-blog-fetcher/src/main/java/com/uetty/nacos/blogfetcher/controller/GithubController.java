@@ -1,10 +1,10 @@
 package com.uetty.nacos.blogfetcher.controller;
 
 import com.uetty.nacos.annotation.AutoLogSpec;
-import com.uetty.nacos.blogfetcher.dto.GithubFetchTriggerDto;
+import com.uetty.nacos.blogfetcher.ao.BlogTaskTriggerAo;
 import com.uetty.nacos.blogfetcher.entity.Task;
 import com.uetty.nacos.blogfetcher.entity.TaskStatus;
-import com.uetty.nacos.blogfetcher.jms.GithubDynamicProducer;
+import com.uetty.nacos.blogfetcher.jms.DownloadedHookDynamicProducer;
 import com.uetty.nacos.blogfetcher.jms.GithubSimpleSender;
 import com.uetty.nacos.blogfetcher.service.GithubService;
 import com.uetty.nacos.blogfetcher.vo.GithubTaskVo;
@@ -15,9 +15,7 @@ import com.uetty.nacos.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -34,11 +32,20 @@ import java.util.UUID;
 public class GithubController extends BaseController {
 
     @Autowired
-    private GithubDynamicProducer githubCompleteProducer;
+    private DownloadedHookDynamicProducer githubCompleteProducer;
 
     @Autowired
     private GithubService githubService;
 
+    @PostMapping("addTask")
+    public BaseResponse<Object> addTask(@RequestBody BlogTaskTriggerAo ao) {
+
+        Task task = githubService.addTask(ao);
+
+        return BaseResponse.success(task.getId());
+    }
+    
+    
     @Value("${app.tmpdir}")
     private String tmpDir;
 
@@ -51,7 +58,7 @@ public class GithubController extends BaseController {
 
     @AutoLogSpec("触发博客下载任务")
     @RequestMapping("triggerBlogFetcher")
-    public BaseResponse<Object> triggerBlogFetcher(GithubFetchTriggerDto dto) {
+    public BaseResponse<Object> triggerBlogFetcher(BlogTaskTriggerAo dto) {
         
         
         return BaseResponse.success();
