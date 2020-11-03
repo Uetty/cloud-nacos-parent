@@ -22,3 +22,6 @@ target
 ### git ###
 !.gitignore
 
+### nacos ###
+nacos-console/logs/
+nacos-console/status/
