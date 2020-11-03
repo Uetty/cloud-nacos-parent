@@ -81,7 +81,7 @@ if %FUNCTION_MODE% == "naming" (
 rem set nacos options
 set "NACOS_OPTS=%NACOS_OPTS% -Dloader.path=%BASE_DIR%/plugins/health,%BASE_DIR%/plugins/cmdb"
 set "NACOS_OPTS=%NACOS_OPTS% -Dnacos.home=%BASE_DIR%"
-set "NACOS_OPTS=%NACOS_OPTS% -jar %BASE_DIR%\target\%SERVER%.jar"
+set "NACOS_OPTS=%NACOS_OPTS% -jar %BASE_DIR%\lib\%SERVER%.jar"
 
 rem set nacos spring config location
 set "NACOS_CONFIG_OPTS=--spring.config.location=%CUSTOM_SEARCH_LOCATIONS%"
