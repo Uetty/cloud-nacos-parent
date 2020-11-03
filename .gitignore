@@ -25,3 +25,4 @@ target
 ### nacos ###
 nacos-console/logs/
 nacos-console/status/
+nacos-console/data/
