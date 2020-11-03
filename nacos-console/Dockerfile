@@ -12,6 +12,7 @@ COPY ./lib/nacos-server.jar $WORK_PATH/lib/
 
 WORKDIR $WORK_PATH
 
-RUN mkdir $WORK_PATH/logs
+RUN mkdir $WORK_PATH/logs && \
+    chmod a+x $WORK_PATH/bin/startup.sh
 
 CMD ["/bin/bash"]
