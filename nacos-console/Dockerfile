@@ -4,7 +4,7 @@ ENV WORK_PATH /opt/nacos/
 
 EXPOSE 8848
 
-COPY ./bin/run.sh $WORK_PATH/bin/startup.sh
+COPY ./bin/startup.sh $WORK_PATH/bin/startup.sh
 COPY ./conf/application.properties $WORK_PATH/conf/
 COPY ./conf/nacos-logback.xml $WORK_PATH/conf/
 COPY ./conf/nacos-mysql.sql $WORK_PATH/db/mysql/
